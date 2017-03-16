@@ -66,8 +66,16 @@ public class TMatrix extends Matrix{
 	compose(scaleMatrix(dx, dy, dz));
     }
     
-    public void xRotate(double dx, double dy, double dz){
-	compose(xRotateMatrix(dx, dy, dz));
+    public void xRotate(double theta){
+	compose(xRotateMatrix(theta));
+    }
+
+    public void yRotate(double theta){
+	compose(yRotateMatrix(theta));
+    }
+
+    public void zRotate(double theta){
+	compose(zRotateMatrix(theta));
     }
     
     public static void main(String[] args){
@@ -86,7 +94,7 @@ public class TMatrix extends Matrix{
 
 	T.translate(100, 100, 100);
 	System.out.println(T);
-	//T.scale(.5,1,2);
+	T.scale(.5,1,2);
 	System.out.println(T);
     }
 

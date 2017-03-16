@@ -72,6 +72,17 @@ public class Canvas {
 	fill(255, 255, 255);
     }
 
+    public void draw(EdgeMatrix E, Pixel p, int lines){
+	int N = (lines < E.length()) ? lines : E.length();
+	for (int i=0;i<N;i+=2)
+	    line(E.A[0][i], E.A[0][i+1], E.A[1][i], E.A[1][i+1], p);
+    }
+
+    public void draw( EdgeMatrix E, Pixel p){
+	int lines = E.length();
+	draw( E, p, lines);
+    }
+    
     public boolean line(double x1, double y1, double x2, double y2){
 	return line(x1, y1, x2, y2, new Pixel(0, 0, 0));
     }
