@@ -11,16 +11,16 @@ public class Canvas {
     
     // Constructors
     public Canvas() {
-	canvas = new Pixel[500][500];
+	canvas = new Pixel[501][501];
 	x = 500;
 	y = 500;
 	fill(255, 255, 255);
 	//edges = new EdgeMatrix();
     }
     public Canvas(int x, int y) {
-	canvas = new Pixel[y][x];
-	this.x = x;
-	this.y = y;
+	canvas = new Pixel[y+1][x+1];
+	this.x = x+1;
+	this.y = y+1;
 	fill(255, 255, 255);
 	//edges = new EdgeMatrix();
     }
@@ -45,10 +45,16 @@ public class Canvas {
     }
 
     // Canvas Methods
-    public boolean draw_pixel(int x, int y, Pixel p) {
-	canvas[y][x] = p;
-	return true;
+    public boolean draw_pixel(int a, int b, Pixel p) {
+
+	if (a >= 0 && a <x  && b > 0 && b < y){
+	    canvas[b][a] = p;
+	    return true;
+	}
+	return false;
+	
     }
+    
     public boolean draw_pixel(int x, int y) {
 	return draw_pixel(x, y, new Pixel(0, 0, 0));
     }
@@ -209,5 +215,42 @@ public class Canvas {
 	}
 	pw.close();
 	return true;
+    }
+
+    public void display(){
+
+	try{
+	    save("temp.ppm");
+	} catch (FileNotFoundException r) {
+	    System.out.println("Error: File not found");
+	}
+	
+	try{
+	    Process process = Runtime.getRuntime().exec("display temp.ppm");
+	} catch (IOException e) {
+	    System.out.println(e);
+	}
+
+    }
+
+    public static void main(String [] args){
+	Canvas c = new Canvas();
+	Pixel p = new Pixel(255, 0, 0);
+
+	c.line(200, 200, 200, 0, p);
+
+	for (int y=0;y<=500;y+=50){
+	    p.adjust(0, 30, 20);
+	    c.line(200, 200, 250, y, p);
+	}
+
+	c.display();
+
+	try{
+	    c.save("image.ppm");
+	} catch (FileNotFoundException e){
+	    System.out.println(e);
+	}
+
     }
 }

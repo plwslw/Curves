@@ -46,6 +46,7 @@ public class Pixel {
     public int[] adjust(int dR, int dG, int dB) {
 	int[] old = getRGB();
 	R += dR; G += dG; B += dB;
+	R %= 256; G %= 256; B %= 256;
 	return old;
     }
     

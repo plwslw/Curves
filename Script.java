@@ -1,5 +1,6 @@
-import java.util.*;
-import java.io.*;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Script{
 
@@ -10,9 +11,19 @@ public class Script{
 	Canvas c = new Canvas(500, 500, 0, 0, 0);
 	EdgeMatrix E = new EdgeMatrix();
 	TMatrix T = new TMatrix();
-	Pixel p = new Pixel(255, 255, 0);
+	Pixel p = new Pixel(255, 0, 255);
     
-	Scanner s = new Scanner( "script");
+	//Scanner s = new Scanner( "script");
+	File file = new File(args[0]);
+	Scanner s;
+
+	try {
+	    s = new Scanner(file);
+	} 
+	catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	    s = new Scanner("");
+	}
 	String line = "";
 	String axis = "";
 
@@ -28,6 +39,11 @@ public class Script{
 
 	    else if (line.equals("display")){
 		c.draw (E,p);
+		try{
+		    c.save("temp.ppm");
+		} catch (FileNotFoundException r) {
+		    System.out.println("Error: File not found");
+		}		
 	    }
 
 	    else if (line.equals("ident")){
@@ -51,6 +67,7 @@ public class Script{
 	    }
 
 	    else if (line.equals("save")){
+		System.out.println("edge matrix:\n" + E);
 		try{
 		    c.save(s.next());
 		} catch (FileNotFoundException r) {
