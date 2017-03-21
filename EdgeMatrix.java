@@ -15,14 +15,14 @@ public class EdgeMatrix extends Matrix{
 	super();
     }
     
-    public void addEdge(double x1, double x2, double y1, double y2, double z1, double z2){
+    public void addEdge(double x1, double y1, double z1, double x2, double y2, double z2){
 	double [] P1={x1, y1, z1, 1};
 	double [] P2={x2, y2, z2, 1};
 	addColumn(P1);
 	addColumn(P2);
     }
 
-    public void addEdge(int x1, int x2, int y1, int y2, int z1, int z2){
+    public void addEdge(int x1, int y1, int z1, int x2, int y2, int z2){
 	double a1 = (double) x1;
 	double a2 = (double) x2;
 	double b1 = (double) y1;

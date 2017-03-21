@@ -6,15 +6,13 @@ public class Script{
 
     public static void main(String[] args){
 
-	Canvas c = new Canvas(500, 500, 0, 0, 0);
+	Canvas c = new Canvas();
 	EdgeMatrix E = new EdgeMatrix();
 	TMatrix T = new TMatrix();
 	Pixel p = new Pixel(255, 0, 255);
     
-<<<<<<< HEAD
-	Scanner s = new Scanner( "turtles");
-=======
 	//Scanner s = new Scanner( "script");
+
 	File file = new File(args[0]);
 	Scanner s;
 
@@ -25,13 +23,12 @@ public class Script{
 	    e.printStackTrace();
 	    s = new Scanner("");
 	}
->>>>>>> 3ff9fa642617539339e065f4f4af4efefc479b8c
 	String line = "";
 	String axis = "";
 
     
 	while (s.hasNextLine()){
-	    System.out.println("Entering loop");
+	    //System.out.println("Entering loop");
 
 	    line = s.nextLine();
 	    System.out.println(line);
@@ -43,11 +40,9 @@ public class Script{
 
 	    else if (line.equals("display")){
 		c.draw (E,p);
-		try{
-		    c.save("temp.ppm");
-		} catch (FileNotFoundException r) {
-		    System.out.println("Error: File not found");
-		}		
+		System.out.println("edge matrix:\n" + E);
+		c.display();
+		c.clear();
 	    }
 
 	    else if (line.equals("ident")){
@@ -60,6 +55,10 @@ public class Script{
 
 	    else if (line.equals("apply")){
 		E.matrixMultiply(T);
+	    }
+
+	    else if (line.equals("move")){
+		T.translate( s.nextDouble(),s.nextDouble(),s.nextDouble());
 	    }
 
 	    else if (line.equals("rotate")){

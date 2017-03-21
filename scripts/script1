@@ -23,5 +23,13 @@ line
 line
 100 0 0 100 0 100
 display
-save
-pic.ppm
+ident
+scale
+2 2 2
+apply
+display
+ident
+move
+100 100 0
+apply
+display

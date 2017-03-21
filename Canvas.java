@@ -48,7 +48,7 @@ public class Canvas {
     public boolean draw_pixel(int a, int b, Pixel p) {
 
 	if (a >= 0 && a <x  && b > 0 && b < y){
-	    canvas[b][a] = p;
+	    canvas[b][a] = new Pixel(p);
 	    return true;
 	}
 	return false;
@@ -81,7 +81,7 @@ public class Canvas {
     public void draw(EdgeMatrix E, Pixel p, int lines){
 	int N = (lines < E.length()) ? lines : E.length();
 	for (int i=0;i<N;i+=2)
-	    line(E.A[0][i], E.A[0][i+1], E.A[1][i], E.A[1][i+1], p);
+	    line(E.A[0][i], E.A[1][i], E.A[0][i+1], E.A[1][i+1], p);
     }
 
     public void draw( EdgeMatrix E, Pixel p){
@@ -226,7 +226,13 @@ public class Canvas {
 	}
 	
 	try{
-	    Process process = Runtime.getRuntime().exec("display temp.ppm");
+	    Process process = Runtime.getRuntime().exec("display temp.ppm");    
+	    try {
+		Thread.sleep(1000);
+	    } catch(InterruptedException ex) {
+		Thread.currentThread().interrupt();
+	    }
+	    process = Runtime.getRuntime().exec("rm temp.ppm");
 	} catch (IOException e) {
 	    System.out.println(e);
 	}
