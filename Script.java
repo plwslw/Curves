@@ -5,21 +5,21 @@ public class Script{
 
     public static void main(String[] args){
 
-	System.out.println("Hi");
-	
 	Canvas c = new Canvas(500, 500, 0, 0, 0);
 	EdgeMatrix E = new EdgeMatrix();
 	TMatrix T = new TMatrix();
 	Pixel p = new Pixel(255, 255, 0);
     
-	Scanner s = new Scanner( "script");
+	Scanner s = new Scanner( "turtles");
 	String line = "";
 	String axis = "";
 
     
 	while (s.hasNextLine()){
+	    System.out.println("Entering loop");
 
 	    line = s.nextLine();
+	    System.out.println(line);
 	
 	    if (line.equals("line")){
 		E.addEdge(s.nextDouble(),s.nextDouble(),s.nextDouble(),
