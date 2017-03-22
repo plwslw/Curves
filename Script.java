@@ -71,11 +71,7 @@ public class Script{
 
 	    else if (line.equals("save")){
 		System.out.println("edge matrix:\n" + E);
-		try{
-		    c.save(s.next());
-		} catch (FileNotFoundException r) {
-		    System.out.println("Error: File not found");
-		}
+		c.save_extension(s.next());
 	    }
 
 	}

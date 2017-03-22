@@ -88,21 +88,27 @@ public class Canvas {
 	int lines = E.length();
 	draw( E, p, lines);
     }
-    
+
+    /*
+      ===============================
+
+      // Bresenham's Line Algorithm - 8 Octants
+
+      ===============================
+    */
     public boolean line(double x1, double y1, double x2, double y2){
 	return line(x1, y1, x2, y2, new Pixel(0, 0, 0));
     }
 
     public boolean line(double x1, double y1, double x2, double y2, Pixel P){
 	int a1,b1,a2,b2;
-	a1 = (int) x1;
-	b1 = (int) y1;
-	a2 = (int) x2;
-	b2 = (int) y2;
+	a1 = (int) (x1 + 0.5);
+	b1 = (int) (y1 + 0.5);
+	a2 = (int) (x2 + 0.5);
+	b2 = (int) (y2 + 0.5);
 	return line(a1, b1, a2, b2, P);
     }
 
-    // Bresenham's Line Algorithm - 8 Octants
     public boolean line(int x1, int y1, int x2, int y2) {
 	return line(x1, y1, x2, y2, new Pixel(0, 0, 0));
     }
@@ -203,7 +209,102 @@ public class Canvas {
 	return true;
     }
 
-    // File Creation
+    /*
+
+      ================================
+
+      //Curves
+
+      ================================
+
+    */
+
+    public static circle (int cx, int cy, int cz, int r, int steps, EdgeMatrix E){
+	
+	double x0, y0, x, y;
+	x0 = cx + r;
+	y0 = cy;
+	
+	double t;
+	for (int i=0;i<steps;i++){
+	    t = (2 * Math.PI *i)/steps;
+
+	    x = cx + r*Math.cos(t);
+	    y = cy + r*Math.sin(t);
+
+	    E.addEdge(x0, y0, cz, x1, y1, cz);
+	}
+	
+    }
+    
+    // 0 --> Bezier
+    // 1 --> Hermiye
+    public static spline (double x0, double y0, double x1, double y1,
+			  double x2, double y2, double x3, double y3,
+			  int steps, int flag, EdgeMatrix E){
+
+	double x0, y0, x, y;
+	double [] coeffX, coeffY;
+	
+	double [] T = {t*t*t, t*t, t, 1};
+	
+	double [][] bezier = {{-1, 3, -3, 1}, {3, -6, -3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}};
+	double [][] hermite = {{2, -2, 1, 1}, {-3. 3, -2, -1}, {0, 0, 1, 0}, {1, 0, 0, 0}};
+	
+	double [][] X = {{x0}, {x1}, {x2}, {x3}};
+	double [][] Y = {{y0}, {y1}, {y2}, {y3}};
+	
+	Matrix coeffXmatrix = new Matrix(X);
+	Matrix coeffYmatrix = new Matrix(Y);
+
+	if (flag == 0){
+	    coeffXmatrix.matrixMultiply(bezier);
+	    coeffYmatrix.matrixMultiply(bezier);
+	}
+	else if (flag == 1){
+	    coeffXmatrix.matrixMultiply(hermite);
+	    coeffYmatrix.matrixMultiply(hermite);
+	}
+	
+	coeffX = coeffXmatrix.array();
+	coeffY = coeffYmatrix.array();
+
+	x0 = rc(T, coeffX);
+	y0 = rc(T, coeffY);
+
+	double t;
+
+	for (int i=0;i<steps;i++){
+	    t=(1.0*i)/steps;
+
+	    x = rc(T, coeffX);
+	    y = rc(T, coeffY);
+
+	    E.addEdge( x0, y0, 0, x, y, 0);
+	    x0 = x; y0 = y;
+	}
+
+    }
+
+    public static circle (int cx, int cy, int cz, int r, EdgeMatrix E){
+	circle (cx, cy, cz, r, 80, E);
+    }
+
+    public static spline (double x0, double y0, double x1, double y1,
+			  double x2, double y2, double x3, double y3,
+			  int flag, EdgeMatrix E){
+	spline (x0, y0, x1, y1, x2, y2, x3, y3, 289, flag, E);
+    }
+    
+    /*
+    
+      =================================
+
+      // File Creation
+
+      =================================
+
+    */
     public boolean save(String name) throws FileNotFoundException {
 	PrintWriter pw = new PrintWriter(new File(name));
 	pw.print("P3 " + x + " " + y + " 255\n"); // Heading
@@ -217,6 +318,29 @@ public class Canvas {
 	return true;
     }
 
+    public void save_extension(String file) {
+
+	try{
+	    save("temp.ppm");
+	} catch (FileNotFoundException r) {
+	    System.out.println("Error: File not found");
+	}
+	
+	try{
+	    Process process = Runtime.getRuntime().exec("convert temp.ppm "+ file);    
+	    try {
+		Thread.sleep(1000);
+	    } catch(InterruptedException e) {
+		Thread.currentThread().interrupt();
+	    }
+	    process = Runtime.getRuntime().exec("rm temp.ppm");
+	} catch (IOException e) {
+	    System.out.println(e);
+	}
+
+    }
+    
+    
     public void display(){
 
 	try{

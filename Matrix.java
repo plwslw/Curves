@@ -21,6 +21,10 @@ public class Matrix{
 	A = x.A;
     }
 
+    public double [][] array(){
+	return A;
+    }
+    
     public int length(){
 	return A[0].length;
     }
@@ -46,12 +50,9 @@ public class Matrix{
 	return identity(4);
     }
 
-    //Multiplies by B on the left
-    //Updates A with result
-    
-    public void matrixMultiply(double[][] B){
-	int m=B.length;
-	int n=A[0].length;
+    public static double[][] matrixMultiply(double [][]left, double [][] right){
+	int m=left.length;
+	int n=right[0].length;
 	int r=A.length;
 	
 	double C[][] = new double [m][n];//Initialized with zeros
@@ -59,16 +60,31 @@ public class Matrix{
 	for (int i=0;i<m;i++)
 	    for (int j=0;j<n;j++)
 		for (int k=0;k<r;k++)
-		    C[i][j]+=B[i][k]*A[k][j];
+		    C[i][j]+=left[i][k]*right[k][j];
 
-	A=C;
-	//return A;//To do right multiplication, can call B.matrixMultiply(A)
+	return C;
+    }
+
+
+    //Multiplies by B on the left
+    //Updates A with result
+    public void matrixMultiply(double[][] B){
+	A= matrixMultply(B, A);
     }
 
     public void matrixMultiply(Matrix B){
 	matrixMultiply(B.A);
     }
 
+    //Special case of row vector * column vector
+    //length of vectors should be ==
+    public static double rc(double [] row, double [] column){
+	double ans=0;
+	for (int i=0;i<row.length;i++)
+	    ans += row[i] * column[i];
+	return ans;
+    }
+    
     public void addColumn(int [] x){
 	double [] y = new double[x.length];
 	for (int i=0;i<x.length;i++)
