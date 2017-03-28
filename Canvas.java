@@ -219,7 +219,7 @@ public class Canvas {
 
     */
 
-    public static circle (int cx, int cy, int cz, int r, int steps, EdgeMatrix E){
+    public static void circle (int cx, int cy, int cz, int r, int steps, EdgeMatrix E){
 	
 	double x0, y0, x, y;
 	x0 = cx + r;
@@ -232,24 +232,26 @@ public class Canvas {
 	    x = cx + r*Math.cos(t);
 	    y = cy + r*Math.sin(t);
 
-	    E.addEdge(x0, y0, cz, x1, y1, cz);
+	    x0 = x; y0 = y;
+	    
+	    E.addEdge(x0, y0, cz, x, y, cz);
 	}
 	
     }
     
     // 0 --> Bezier
     // 1 --> Hermiye
-    public static spline (double x0, double y0, double x1, double y1,
+    public static void spline (double x0, double y0, double x1, double y1,
 			  double x2, double y2, double x3, double y3,
 			  int steps, int flag, EdgeMatrix E){
 
-	double x0, y0, x, y;
+	double a0, b0, a, b;
 	double [] coeffX, coeffY;
 	
-	double [] T = {t*t*t, t*t, t, 1};
+	double [] T = {0, 0, 0, 0};
 	
 	double [][] bezier = {{-1, 3, -3, 1}, {3, -6, -3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}};
-	double [][] hermite = {{2, -2, 1, 1}, {-3. 3, -2, -1}, {0, 0, 1, 0}, {1, 0, 0, 0}};
+	double [][] hermite = {{2, -2, 1, 1}, {-3, 3, -2, -1}, {0, 0, 1, 0}, {1, 0, 0, 0}};
 	
 	double [][] X = {{x0}, {x1}, {x2}, {x3}};
 	double [][] Y = {{y0}, {y1}, {y2}, {y3}};
@@ -266,31 +268,35 @@ public class Canvas {
 	    coeffYmatrix.matrixMultiply(hermite);
 	}
 	
-	coeffX = coeffXmatrix.array();
-	coeffY = coeffYmatrix.array();
+	coeffX = coeffXmatrix.array()[0];
+	coeffY = coeffYmatrix.array()[0];
 
-	x0 = rc(T, coeffX);
-	y0 = rc(T, coeffY);
+	a0 = Matrix.rc(T, coeffX);
+	b0 = Matrix.rc(T, coeffY);
 
 	double t;
 
 	for (int i=0;i<steps;i++){
 	    t=(1.0*i)/steps;
+	    T[0] = t*t*t;
+	    T[1] = t*t;
+	    T[2] = t;
+	    T[3] = 1;
 
-	    x = rc(T, coeffX);
-	    y = rc(T, coeffY);
+	    a = Matrix.rc(T, coeffX);
+	    b = Matrix.rc(T, coeffY);
 
-	    E.addEdge( x0, y0, 0, x, y, 0);
-	    x0 = x; y0 = y;
+	    E.addEdge( a0, b0, 0, a, b, 0);
+	    a0 = a; b0 = b;
 	}
 
     }
 
-    public static circle (int cx, int cy, int cz, int r, EdgeMatrix E){
+    public static void circle (int cx, int cy, int cz, int r, EdgeMatrix E){
 	circle (cx, cy, cz, r, 80, E);
     }
 
-    public static spline (double x0, double y0, double x1, double y1,
+    public static void spline (double x0, double y0, double x1, double y1,
 			  double x2, double y2, double x3, double y3,
 			  int flag, EdgeMatrix E){
 	spline (x0, y0, x1, y1, x2, y2, x3, y3, 289, flag, E);

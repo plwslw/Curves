@@ -53,7 +53,7 @@ public class Matrix{
     public static double[][] matrixMultiply(double [][]left, double [][] right){
 	int m=left.length;
 	int n=right[0].length;
-	int r=A.length;
+	int r=right.length;
 	
 	double C[][] = new double [m][n];//Initialized with zeros
 
@@ -69,7 +69,7 @@ public class Matrix{
     //Multiplies by B on the left
     //Updates A with result
     public void matrixMultiply(double[][] B){
-	A= matrixMultply(B, A);
+	A= matrixMultiply(B, A);
     }
 
     public void matrixMultiply(Matrix B){

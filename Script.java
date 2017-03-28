@@ -69,6 +69,23 @@ public class Script{
 		else if (axis.equals("y")) T.yRotate(s.nextDouble());
 	    }
 
+	    else if (line.equals("circle")){
+		Canvas.circle( s.nextInt(), s.nextInt(), s.nextInt(),
+			s.nextInt(), E);
+	    }
+
+	    else if (line.equals("bezier")){
+		Canvas.spline( s.nextDouble(), s.nextDouble(), s.nextDouble(),
+			s.nextDouble(), s.nextDouble(), s.nextDouble(),
+			       s.nextDouble(), s.nextDouble(), 0, E);
+	    }
+	    
+	    else if (line.equals("hermite")){
+		Canvas.spline( s.nextDouble(), s.nextDouble(), s.nextDouble(),
+			s.nextDouble(), s.nextDouble(), s.nextDouble(),
+			       s.nextDouble(), s.nextDouble(), 1, E);
+	    }
+
 	    else if (line.equals("save")){
 		System.out.println("edge matrix:\n" + E);
 		c.save_extension(s.next());

@@ -1,9 +1,7 @@
-all: Draw.java
+all: 
 	javac Pixel.java
 	javac Canvas.java
 	javac Matrix.java
-	javac Draw.java
-	java Draw
 
 run: Draw.java
 	make && make png && echo "Saved as out.png"

@@ -1,35 +1,13 @@
-line
-0 0 0 100 0 0
-line
-100 0 0 100 100 0
-line
-100 100 0 0 100 0
-line
-0 100 0 0 0 0
-line
-0 0 100 100 0 100
-line
-100 0 100 100 100 100
-line
-100 100 100 0 100 100
-line
-0 100 100 0 0 100
-line
-0 0 0 0 0 100
-line
-0 100 0 0 100 100
-line
-100 100 0 100 100 100
-line
-100 0 0 100 0 100
+circle
+250 250 0 200
+circle
+175 325 0 50
+circle
+325 325 0 50
+circle
+175 325 0 10
+circle
+325 325 0 10
 display
-ident
-scale
-2 2 2
-apply
-display
-ident
-move
-100 100 0
-apply
-display
+save
+face.png
