@@ -1,21 +1,21 @@
-all: 
+all:
+	make compile
+	make script
+
+compile: Pixel.java Canvas.java Matrix.java EdgeMatrix.java TMatrix.java Script.java 
 	javac Pixel.java
 	javac Canvas.java
 	javac Matrix.java
+	javac EdgeMatrix.java
+	javac TMatrix.java
+	javac Script.java
 
-run: Draw.java
-	make && make png && echo "Saved as out.png"
+script:
+	java Script scripts/script
+
+script1:
+	java Script scripts/script
 
 clean: 
-	rm *.class *.ppm *~
+	rm *.class *.ppm *~ *.png *.jpg
 
-jpg: out.ppm
-	java Draw; \
-	convert out.ppm out.jpg
-
-png: out.ppm
-	java Draw; \
-	convert out.ppm out.png
-
-clean_images:
-	rm *.jpg *.png

@@ -84,6 +84,14 @@ public class Matrix{
 	    ans += row[i] * column[i];
 	return ans;
     }
+
+    //Assumes c is a column vector
+    public static double rc(double [] row, Matrix c){
+	double ans = 0;
+	for (int i=0;i<row.length;i++)
+	    ans += row[i] * c.A[i][0];
+	return ans;
+    }
     
     public void addColumn(int [] x){
 	double [] y = new double[x.length];
@@ -125,7 +133,8 @@ public class Matrix{
 
 	Matrix B = new Matrix(B1);
 	Matrix E = new Matrix(E1);
-		
+
+	/*
 	System.out.println("\nMatrix E:\n" + E);
 	E.scalarMultiply(2);
 	System.out.println("\nTesting scalar Multiplication: 2xE\n" + E);
@@ -134,8 +143,13 @@ public class Matrix{
 	System.out.println("\nTesting Matrix Multiplication: BxE");
 	E.matrixMultiply(B);
 	System.out.println(E);
-	
+	*/
 	//System.out.println("\nMatrix E:\n");
 
+	double [] row = {1, 2, 3};
+	double [] column = {10, 10, 10};
+
+	System.out.println(rc(row, column));
+	
     }
 }

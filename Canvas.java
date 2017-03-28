@@ -231,16 +231,15 @@ public class Canvas {
 
 	    x = cx + r*Math.cos(t);
 	    y = cy + r*Math.sin(t);
-
-	    x0 = x; y0 = y;
 	    
 	    E.addEdge(x0, y0, cz, x, y, cz);
+	    x0 = x; y0 = y;
 	}
 	
     }
     
     // 0 --> Bezier
-    // 1 --> Hermiye
+    // 1 --> Hermite
     public static void spline (double x0, double y0, double x1, double y1,
 			  double x2, double y2, double x3, double y3,
 			  int steps, int flag, EdgeMatrix E){
@@ -267,12 +266,11 @@ public class Canvas {
 	    coeffXmatrix.matrixMultiply(hermite);
 	    coeffYmatrix.matrixMultiply(hermite);
 	}
-	
-	coeffX = coeffXmatrix.array()[0];
-	coeffY = coeffYmatrix.array()[0];
 
-	a0 = Matrix.rc(T, coeffX);
-	b0 = Matrix.rc(T, coeffY);
+	System.out.println("" + coeffXmatrix + " " + coeffYmatrix);
+	
+	a0 = Matrix.rc(T, coeffXmatrix);
+	b0 = Matrix.rc(T, coeffYmatrix);
 
 	double t;
 
@@ -283,8 +281,8 @@ public class Canvas {
 	    T[2] = t;
 	    T[3] = 1;
 
-	    a = Matrix.rc(T, coeffX);
-	    b = Matrix.rc(T, coeffY);
+	    a = Matrix.rc(T, coeffXmatrix);
+	    b = Matrix.rc(T, coeffYmatrix);
 
 	    E.addEdge( a0, b0, 0, a, b, 0);
 	    a0 = a; b0 = b;
