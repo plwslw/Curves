@@ -226,7 +226,7 @@ public class Canvas {
 	y0 = cy;
 	
 	double t;
-	for (int i=0;i<steps;i++){
+	for (int i=1;i<=steps;i++){
 	    t = (2 * Math.PI *i)/steps;
 
 	    x = cx + r*Math.cos(t);
@@ -247,9 +247,9 @@ public class Canvas {
 	double a0, b0, a, b;
 	double [] coeffX, coeffY;
 	
-	double [] T = {0, 0, 0, 0};
+	double [] T = {0, 0, 0, 1};
 	
-	double [][] bezier = {{-1, 3, -3, 1}, {3, -6, -3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}};
+	double [][] bezier = {{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}};
 	double [][] hermite = {{2, -2, 1, 1}, {-3, 3, -2, -1}, {0, 0, 1, 0}, {1, 0, 0, 0}};
 	
 	double [][] X = {{x0}, {x1}, {x2}, {x3}};
@@ -274,7 +274,7 @@ public class Canvas {
 
 	double t;
 
-	for (int i=0;i<steps;i++){
+	for (int i=1;i<=steps;i++){
 	    t=(1.0*i)/steps;
 	    T[0] = t*t*t;
 	    T[1] = t*t;

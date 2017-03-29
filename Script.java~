@@ -1,7 +1,0 @@
-import './*';
-
-public class Script{
-
-    Matrix m = new Matrix();
-
-}
