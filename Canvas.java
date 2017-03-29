@@ -6,7 +6,7 @@ import java.util.*;
 // ===================================================
 public class Canvas {
     private Pixel[][] canvas; // Drawing Canvas
-    //private EdgeMatrix edges; // Lines
+    private EdgeMatrix edges; // Lines
     private int x, y; // Dimensions
     
     // Constructors
@@ -15,14 +15,14 @@ public class Canvas {
 	x = 500;
 	y = 500;
 	fill(255, 255, 255);
-	//edges = new EdgeMatrix();
+	edges = new EdgeMatrix();
     }
     public Canvas(int x, int y) {
 	canvas = new Pixel[y+1][x+1];
 	this.x = x+1;
 	this.y = y+1;
 	fill(255, 255, 255);
-	//edges = new EdgeMatrix();
+	edges = new EdgeMatrix();
     }
     public Canvas(int x, int y, Pixel p) {
 	this(x, y);
@@ -78,15 +78,15 @@ public class Canvas {
 	fill(255, 255, 255);
     }
 
-    public void draw(EdgeMatrix E, Pixel p, int lines){
-	int N = (lines < E.length()) ? lines : E.length();
+    public void draw(Pixel p, int lines){
+	int N = (lines < edges.length()) ? lines : edges.length();
 	for (int i=0;i<N;i+=2)
-	    line(E.A[0][i], E.A[1][i], E.A[0][i+1], E.A[1][i+1], p);
+	    line(edges.A[0][i], edges.A[1][i], edges.A[0][i+1], edges.A[1][i+1], p);
     }
 
-    public void draw( EdgeMatrix E, Pixel p){
-	int lines = E.length();
-	draw( E, p, lines);
+    public void draw(Pixel p){
+	int lines = edges.length();
+	draw (p, lines);
     }
 
     /*
@@ -219,7 +219,7 @@ public class Canvas {
 
     */
 
-    public static void circle (int cx, int cy, int cz, int r, int steps, EdgeMatrix E){
+    public static void circle (int cx, int cy, int cz, int r, int steps){
 	
 	double x0, y0, x, y;
 	x0 = cx + r;
@@ -232,7 +232,7 @@ public class Canvas {
 	    x = cx + r*Math.cos(t);
 	    y = cy + r*Math.sin(t);
 	    
-	    E.addEdge(x0, y0, cz, x, y, cz);
+	    edges.addEdge(x0, y0, cz, x, y, cz);
 	    x0 = x; y0 = y;
 	}
 	
@@ -242,7 +242,7 @@ public class Canvas {
     // 1 --> Hermite
     public static void spline (double x0, double y0, double x1, double y1,
 			  double x2, double y2, double x3, double y3,
-			  int steps, int flag, EdgeMatrix E){
+			  int steps, int flag){
 
 	double a0, b0, a, b;
 	double [] coeffX, coeffY;
@@ -284,21 +284,33 @@ public class Canvas {
 	    a = Matrix.rc(T, coeffXmatrix);
 	    b = Matrix.rc(T, coeffYmatrix);
 
-	    E.addEdge( a0, b0, 0, a, b, 0);
+	    edges.addEdge( a0, b0, 0, a, b, 0);
 	    a0 = a; b0 = b;
 	}
 
     }
 
-    public static void circle (int cx, int cy, int cz, int r, EdgeMatrix E){
-	circle (cx, cy, cz, r, 80, E);
+    public static void circle (int cx, int cy, int cz, int r){
+	circle (cx, cy, cz, r, 80);
     }
 
     public static void spline (double x0, double y0, double x1, double y1,
 			  double x2, double y2, double x3, double y3,
-			  int flag, EdgeMatrix E){
-	spline (x0, y0, x1, y1, x2, y2, x3, y3, 289, flag, E);
+			  int flag){
+	spline (x0, y0, x1, y1, x2, y2, x3, y3, 289, flag);
     }
+
+    /*
+    
+      =================================
+
+      // 3D Shapes
+
+      =================================
+
+    */
+
+    public static void box (int x, int y, int z, int height, int width, int depth)
     
     /*
     

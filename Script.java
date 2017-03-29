@@ -7,7 +7,7 @@ public class Script{
     public static void main(String[] args){
 
 	Canvas c = new Canvas();
-	EdgeMatrix E = new EdgeMatrix();
+	//EdgeMatrix E = new EdgeMatrix();
 	TMatrix T = new TMatrix();
 	Pixel p = new Pixel(255, 0, 255);
     
@@ -39,8 +39,8 @@ public class Script{
 	    }
 
 	    else if (line.equals("display")){
-		c.draw (E,p);
-		System.out.println("edge matrix:\n" + E);
+		c.draw (p);
+		System.out.println("edge matrix:\n" + C.E);
 		c.display();
 		c.clear();
 	    }
@@ -71,23 +71,23 @@ public class Script{
 
 	    else if (line.equals("circle")){
 		Canvas.circle( s.nextInt(), s.nextInt(), s.nextInt(),
-			s.nextInt(), E);
+			s.nextInt());
 	    }
 
 	    else if (line.equals("bezier")){
 		Canvas.spline( s.nextDouble(), s.nextDouble(), s.nextDouble(),
 			s.nextDouble(), s.nextDouble(), s.nextDouble(),
-			       s.nextDouble(), s.nextDouble(), 0, E);
+			       s.nextDouble(), s.nextDouble(), 0);
 	    }
 	    
 	    else if (line.equals("hermite")){
 		Canvas.spline( s.nextDouble(), s.nextDouble(), s.nextDouble(),
 			s.nextDouble(), s.nextDouble(), s.nextDouble(),
-			       s.nextDouble(), s.nextDouble(), 1, E);
+			       s.nextDouble(), s.nextDouble(), 1);
 	    }
 
 	    else if (line.equals("save")){
-		System.out.println("edge matrix:\n" + E);
+		System.out.println("edge matrix:\n" + C.E);
 		c.save_extension(s.next());
 	    }
 
